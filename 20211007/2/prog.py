@@ -4,3 +4,6 @@ def SUB(a, b):
         return tuple([elem for elem in a if not elem in b]) if type(a) == type((0,)) else [elem for elem in a if not elem in b]
     else:
         return a - b
+        
+a, b = eval(input())
+print(SUB(a, b))        
