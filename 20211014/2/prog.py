@@ -11,32 +11,24 @@ def F(x):
 
 data = list(input().split(" "))
 W, H, A, B = int(data[0]), int(data[1]), int(data[2]), int(data[3])
-X = [scale(0, W, A, B, i) for i in range(W)]  # перенос точек терминала в координаты
-Y = [F(x) for x in X]
+X = [i for i in range(W)]  # перенос точек терминала в координаты
+Y = [F(scale(0, W, A, B, x)) for x in X]
 my, My = min(Y), max(Y)
 Y = [scale(my, My, 0, H, y) for y in Y]  # масштабируем полученные Y
-for i in range(len(Y) - 1):
-    for j in range(i, len(Y)):
-        if Y[i] < Y[j]:
-            Y[i], Y[j] = Y[j], Y[i]
-            X[i], X[j] = X[j], X[i]
+res = []
+for i in range(1, W):
+    stars_count = 0
+    index2 = ceil(Y[i])
+    index1 = ceil(Y[i - 1])
+    stars_count += abs(index2 - index1)  # для непрерывности графиков будем заполнять пробелы звездочками
+    if stars_count == 0:
+        stars_count = 1  # для случая, когда точки близко. чтобы не пропускать координату
+    res.append(' ' * index1 + '*' * stars_count)
+    res[-1] += ' ' * (H - len(res[-1]))  # строки постоянного размера проще выводить в "повернутом" как надо виде
 
-print(X)
-print(Y)
-
-index1 = 0
-index2 = 0
-X = [round(scale(A, B, 0, W, X[i])) if i % 2 else round(scale(A, B, 0, W, X[i])) + 1 for i in range(len(X))]
-while True:
-    y = Y[index1]
-    while index2 < len(X) and y - Y[index2] < W/(2*H):  # ищем иксы с похожими значениями y
-        index2 += 1
-    similar = sorted([X[i] for i in range(index1, index2)])
-    print(' ' * similar[0] + '*', end='')  # пишем первую звездочку в строке
-    for i in range(1, index2 - index1):
-        print(' ' * (similar[i] - similar[i - 1]) + '*', end='')
-    if index2 >= len(X):
-        break
-    index1 = index2
+for i in range(1, len(res[0])):
+    for j in range(len(res)):
+        print(res[j][-i], end='')
     print()
+#print(res[0])
 
