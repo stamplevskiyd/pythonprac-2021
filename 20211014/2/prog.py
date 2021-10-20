@@ -10,7 +10,7 @@ def F(x):
 # W- ширина, H- высота, А- начало старого отрезка, В- конец старого отрезка
 
 data = list(input().split(" "))
-W, H, A, B = int(data[0]), int(data[1]), int(data[2]), int(data[3])
+W, H, A, B = int(data[0]), int(data[1]), float(data[2]), float(data[3])
 X = [i for i in range(W)]  # перенос точек терминала в координаты
 Y = [F(scale(0, W, A, B, x)) for x in X]
 my, My = min(Y), max(Y)
@@ -26,9 +26,7 @@ for i in range(1, W):
     res.append(' ' * index1 + '*' * stars_count)
     res[-1] += ' ' * (H - len(res[-1]))  # строки постоянного размера проще выводить в "повернутом" как надо виде
 
-for i in range(1, len(res[0])):
-    for j in range(len(res)):
+for i in range(1, H):
+    for j in range(W - 1):
         print(res[j][-i], end='')
     print()
-#print(res[0])
-
