@@ -4,29 +4,19 @@ def scale(A, B, a, b, x):
     return (x - A) / (B - A) * (b - a) + a
 
 def F(x):
-    f = lambda x: eval(func)
+    f = lambda x: eval(data[4])
     return f(x)
 
 # W- ширина, H- высота, А- начало старого отрезка, В- конец старого отрезка
-# случаи, когда F нельзя рассчитать на заданном участке (1/x, x [-1, 1]) не обработаны, считаются некорректным вводом
 
 data = list(input().split(" "))
-<<<<<<< HEAD
-func = ''
-for i in range(4, len(data)):  # чтобы можно было задавать функцию с пробелами
-    func += data[i]  
-W, H, A, B = int(data[0]), int(data[1]), float(data[2]), float(data[3])
-X = [scale(0, W, A, B, i) for i in range(W + 1)]  # перенос точек терминала в координаты
-Y = [F(x) for x in X]
-=======
 W, H, A, B = int(data[0]), int(data[1]), float(data[2]), float(data[3])
 X = [i for i in range(W)]  # перенос точек терминала в координаты
 Y = [F(scale(0, W, A, B, x)) for x in X]
->>>>>>> 0624843c5102aec51aef6219faec19cedea6e2fa
 my, My = min(Y), max(Y)
 Y = [scale(my, My, 0, H, y) for y in Y]  # масштабируем полученные Y
 res = []
-for i in range(1, W + 1):
+for i in range(1, W):
     stars_count = 0
     index2 = ceil(Y[i])
     index1 = ceil(Y[i - 1])
