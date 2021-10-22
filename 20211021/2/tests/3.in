@@ -1,0 +1,9 @@
+:is_small_factorial x x in (1, 2, 6, 20, 120, 720, 5040)
+:output x print("__".join(list(x)))
+is_small_factorial 120
+is_small_factorial 5
+output ("some text").upper()
+:x t print(['#' * t[0] for i in range(t[1])])
+x (5,4)
+quit quit
+
