@@ -13,12 +13,12 @@ def F(x):
 data = list(input().split(" "))
 func = ''
 for i in range(4, len(data)):  # чтобы можно было задавать функцию с пробелами
-    func += data[i]  
+    func += data[i]
 W, H, A, B = int(data[0]), int(data[1]), float(data[2]), float(data[3])
 X = [scale(0, W, A, B, i) for i in range(W + 1)]  # перенос точек терминала в координаты
 Y = [F(x) for x in X]
 W, H, A, B = int(data[0]), int(data[1]), float(data[2]), float(data[3])
-X = [i for i in range(W)]  # перенос точек терминала в координаты
+X = [i for i in range(W + 1)]
 Y = [F(scale(0, W, A, B, x)) for x in X]
 my, My = min(Y), max(Y)
 Y = [scale(my, My, 0, H, y) for y in Y]  # масштабируем полученные Y
