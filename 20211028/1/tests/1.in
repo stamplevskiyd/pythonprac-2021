@@ -1,0 +1,1 @@
+print(list(zip(fib(0, 25))))
