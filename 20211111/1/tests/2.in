@@ -1,0 +1,3 @@
+A, B = OrderedComplexMul(1,5), OrderedComplexMul(2,3)
+C = OrderedComplexMul(A@B, 6)
+print(OrderedComplexMul(1,1) @ C)

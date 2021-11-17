@@ -1,0 +1,1 @@
+print(OrderedComplex(6,6) < OrderedComplexMul(7,7), OrderedComplexMul(2,-5) @ OrderedComplexMul(5, 2))

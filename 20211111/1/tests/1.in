@@ -1,0 +1,2 @@
+A = OrderedComplex(1,0)
+print(A < A)
