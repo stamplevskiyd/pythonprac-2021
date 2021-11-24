@@ -1,11 +1,14 @@
 import string
 
+class Empty:
+    pass
+
 class Alpha:
     __slots__ = list(string.ascii_lowercase)
 
     def __init__(self, **kwargs):
-        for i, j in kwargs.items():
-            setattr(self, i, j)
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
     def __str__(self):
         data = ''
@@ -14,9 +17,27 @@ class Alpha:
                 data += letter + ': ' + str(getattr(self, letter, None)) + ', '
         return data[:-2]
 
-class AlphaQ:
-    #далее не успел. Alpha - рабочий
+class AlphaQ(Empty):
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            if key in string.ascii_lowercase:
+                setattr(self, key, value)
+            else:
+                raise AttributeError
 
-alp = Alpha(c=10, z=2, a=42)
-alp.e = 123
-print(alp)
+    def __str__(self):  # same as in Alpha
+        data = ''
+        for letter in string.ascii_lowercase:
+            if hasattr(self, letter):
+                data += letter + ': ' + str(getattr(self, letter, None)) + ', '
+        return data[:-2]
+
+    def __setattr__(self, key, value):
+        if key in string.ascii_lowercase:
+            super().__setattr__(key, value)
+        else:
+            raise AttributeError
+
+
+import sys
+exec(sys.stdin.read())
