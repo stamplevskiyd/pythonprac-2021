@@ -1,0 +1,12 @@
+@objcount
+class C:
+    pass
+    
+@objcount    
+class D:
+    pass    
+
+c, d= C(), D()
+print(C.counter, D.counter)
+c = 100500
+print(C.counter, D.counter)

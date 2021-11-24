@@ -1,0 +1,14 @@
+@objcount
+class C:
+    pass
+
+objects = []
+for i in range(6):
+    print(C.counter)
+    objects.append(C())
+    
+print('_')    
+    
+for i in range(6):
+    print(C.counter)
+    objects[i] = -1

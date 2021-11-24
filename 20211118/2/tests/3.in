@@ -1,0 +1,8 @@
+class C:
+        num = Num()
+print(C().num)
+c = C()
+c.num = 1.23456
+print(c.num)
+c.num = [i % 2 == 4 for i in range(10)]
+print(c.num)

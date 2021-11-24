@@ -1,0 +1,27 @@
+@objcount
+class C:
+    pass
+
+width = 9
+def printline(count, width):
+    line = '-' * count + '*' + ' ' * (width // 2 - count)
+    print(line[::-1], line, sep='')
+    
+objects = []
+
+    
+for i in range(3):
+    printline(C.counter, width)
+    objects.append(C())
+objects[-1] = -1
+objects[-2] = -1
+printline(C.counter, width)
+objects[-2] = C()
+printline(C.counter, width)
+objects[-1] = C()
+printline(C.counter, width)
+objects[-1] = -1
+objects[-2] = -1
+printline(C.counter, width)
+printline(C.counter, width)  
+printline(C.counter, width)     
