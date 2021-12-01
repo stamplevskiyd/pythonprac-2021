@@ -1,2 +1,5 @@
-"cos(x) ** 2", "sin(x) ** 2", "x - y"
-pi/2
+from math import *
+s, t, u = "cos(x) ** 2", "sin(x) ** 2", "x - y"
+value = pi/2
+F = Calc(s, t, u)
+print(F(value))

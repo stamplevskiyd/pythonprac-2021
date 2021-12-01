@@ -10,10 +10,6 @@ def Counter(s, w, arguments):  # никак не зависит от типа а
         pol2 += arguments[i + deg1 + 3] * (s ** (deg2 - i))
     return pol1/pol2 == w if pol2 else False
 
-data_list = input().strip().split(',')
-for i in range(len(data_list)):  # перевод строк в числа
-    data_list[i] = Fraction(data_list[i])
-s = data_list[0]
-w = data_list[1]
-print(Counter(s, w, data_list[2:]))
+import sys
+exec(sys.stdin.read())
 

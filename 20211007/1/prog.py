@@ -10,4 +10,5 @@ def Pareto(*data):
     return res        
 
 # для тестов
-print(Pareto(*(eval(input()))))
+import sys
+exec(sys.stdin.read())

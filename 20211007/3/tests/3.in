@@ -1,1 +1,2 @@
-"w", sorted(list("qwerty"))
+elem, seq = "w", sorted(list("qwerty"))
+print(Bisect(elem, seq))    

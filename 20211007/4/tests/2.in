@@ -1,2 +1,5 @@
-"x*cos(x)", "log10(x)", "x - y"
-15
+from math import *
+s, t, u = "x*cos(x)", "log10(x)", "x - y"
+value = 15
+F = Calc(s, t, u)
+print(F(value))

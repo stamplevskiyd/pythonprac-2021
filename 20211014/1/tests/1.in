@@ -1,1 +1,6 @@
-1, 15, 2, 1, 1, 1, 1, 1, -1
+data_list = [1, 15, 2, 1, 1, 1, 1, 1, -1]
+for i in range(len(data_list)):  # перевод строк в числа
+    data_list[i] = Fraction(data_list[i])
+s = data_list[0]
+w = data_list[1]
+print(Counter(s, w, data_list[2:]))

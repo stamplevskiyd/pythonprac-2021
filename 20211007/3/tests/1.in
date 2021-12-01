@@ -1,1 +1,1 @@
-"w", "qwerty"
+print(Bisect("w", "qwerty"))    

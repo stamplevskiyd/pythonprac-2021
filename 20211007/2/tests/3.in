@@ -1,1 +1,3 @@
-("pareto", "sub", "bisect", "calc"), ("calc", "bisect", "another function name", 42)
+a = ("pareto", "sub", "bisect", "calc")
+b = ("calc", "bisect", "another function name", 42)
+print(SUB(a, b))
