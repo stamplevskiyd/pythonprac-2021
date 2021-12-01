@@ -1,0 +1,12 @@
+try:
+    alp = Alpha(c=10, z=2, a=42)
+    print(alp.e)
+except AttributeError:
+    print("Alpha attribute error works")
+
+try:
+    alp = AlphaQ(c=10, z=2, a=42)
+    print(alp.e)
+except AttributeError:
+    print("AlphaQ attribute error works")
+    

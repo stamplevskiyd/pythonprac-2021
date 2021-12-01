@@ -1,0 +1,20 @@
+import time
+
+curr_time = time.time()
+
+alp = Alpha(c=10, z=2, a=42)
+for i in range(10 ** 5):
+    alp.c = i % 70 + alp.a
+    alp.c %= 100
+alpha_time = time.time() - curr_time
+curr_time = time.time()
+alp = AlphaQ(c=10, z=2, a=42)
+for i in range(10 ** 5):
+    alp.c = i % 70 + alp.a
+    alp.c %= 100
+alphaq_time = time.time() - curr_time
+
+if alpha_time < alphaq_time:
+    print("OK")
+else:
+    print("ERROR")

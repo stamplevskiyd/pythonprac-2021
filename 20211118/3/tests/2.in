@@ -1,0 +1,16 @@
+try:
+    alp = Alpha(c=10, z=2, a=42)
+    print(alp.c)
+except AttributeError:
+    print("Something is wrong")
+else:
+    print("Test passed!")
+
+try:
+    alp = Alpha(c=10, z=2, a=42)
+    print(alp.c)
+except AttributeError:
+    print("Something is wrong")
+else:
+    print("TestQ passed!")    
+    
