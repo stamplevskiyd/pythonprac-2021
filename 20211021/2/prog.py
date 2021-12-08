@@ -1,14 +1,13 @@
 import math
 
 functions = {}
+counter = 1
 while (data := input().split())[0] != "quit":
     if data[0][0] == ':':
-        for i in range(3, len(data)):  # чтобы можно было писать выражения с пробелами
-           data[2] += ' ' + data[i]
-        functions[data[0][1:]] = {'new_name': data[0][1:], 'arg': data[1], 'old_name': data[2]}
+        functions[data[0][1:]] = data[1:]
     else:
-        for i in range(2, len(data)):  # чтобы можно было писать выражения с пробелами
-           data[1] += ' ' + data[i]
-        print(eval(functions[data[0]]['old_name'], {functions[data[0]]['arg']: eval(data[1])}, math.__dict__))
-print(len(functions) + 1)
+        print(eval(functions[data[0]][-1], math.__dict__,
+                   {functions[data[0]][i]: eval(data[1 + i]) for i in range(len(data) - 1)}))
+    counter += 1
+print("{}:{}".format(counter, len(functions) + 1))
 

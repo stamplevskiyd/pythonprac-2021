@@ -3,7 +3,7 @@ from collections import Counter
 W = int(input())
 signs = ' ~!@#$%^&*()-_=+\|/]}[{;:\'\",<.>/?\t'  # можно и еще добавить, но вроде хватит
 data = []
-while line := input():
+while line := input().lower():
     for sign in signs:
         line = line.replace(sign, '@')
     for word in line.split('@'):
