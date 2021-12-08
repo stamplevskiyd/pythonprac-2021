@@ -6,7 +6,7 @@ while i < N + 3:
         while copy > 0:
             sum += copy % 10
             copy //= 10
-        print(j, "*", i, "=", i*j if sum != 6 else ":=)", sep ='', end=' ')
+        print(i, "*", j, "=", i*j if sum != 6 else ":=)", sep ='', end=' ')
         j += 1
     print()    
     i += 1
