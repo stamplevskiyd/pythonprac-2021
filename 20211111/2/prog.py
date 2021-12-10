@@ -11,9 +11,11 @@ def TriangleSquare(data):
     except Exception as E:
         raise InvalidInput
     else:
-        for coordinate in [x1, x2, x3, y1, y2, y3]:  #int или bool то приведутся к float, а complex/str/...-нет
-            if not not isinstance(coordinate, float):
-                raise BadTriangle
+        try:
+            for coordinate in [x1, x2, x3, y1, y2, y3]:  # int или bool то приведутся к float, а complex/str/...-нет
+                float(coordinate)
+        except Exception:
+            raise BadTriangle
         A = dist((x1, y1), (x2, y2))
         B = dist((x1, y1), (x3, y3))
         C = dist((x3, y3), (x2, y2))
