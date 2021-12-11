@@ -1,0 +1,11 @@
+class test(metaclass=check):
+    A: int  = "QWERTY"
+    B: str = 123456
+    C: tuple
+
+T1 = test()
+print(T1.check_annotations())
+T1.A, T1.B = T1.B, T1.A
+print(T1.check_annotations())
+T1.A = 123.45
+print(T1.check_annotations())
