@@ -1,0 +1,13 @@
+class C(metaclass=dump):
+    def __init__(self, val):
+        self.real = val
+    
+    def __str__(self):
+        return str(self.real)
+        
+    def __add__(self, number):
+        return 2 * self.real + number.real  
+    
+
+c = C(10)
+print(c + 15.3)
