@@ -14,4 +14,4 @@ for letter in line:
     else:
         pair = ''
         index = 0
-print(pairs)
+print(len(pairs))
