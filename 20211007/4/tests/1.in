@@ -1,5 +1,3 @@
-from math import *
-s, t, u = "exp(x)", "exp(x) + cos(x)", "x*y"
-value = 5.5
-F = Calc(s, t, u)
-print(F(value))
+"exp(x)", "exp(x) + cos(x)", "x*y"
+5.5
+
