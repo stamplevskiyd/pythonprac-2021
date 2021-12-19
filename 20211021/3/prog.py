@@ -4,7 +4,7 @@ W = int(input())
 signs = ' ~!@#$%^&*()-_=+\|/]}[{;:\'\",<.>/?\t'  # можно и еще добавить, но вроде хватит
 data = []
 while True:
-    line = input()
+    line = input().lower()
     if line.split() == []:
         break
     for sign in signs:
