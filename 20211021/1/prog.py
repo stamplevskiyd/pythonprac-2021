@@ -1,4 +1,4 @@
-line = input()
+line = input().lower()
 pairs = set()
 index = 0
 pair = ''
@@ -14,4 +14,4 @@ for letter in line:
     else:
         pair = ''
         index = 0
-print(len(pairs)) 
+print(pairs)
