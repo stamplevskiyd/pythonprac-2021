@@ -20,9 +20,12 @@ def TriangleSquare(data):
         B = dist((x1, y1), (x3, y3))
         C = dist((x3, y3), (x2, y2))
         p = (A + B + C) / 2
-        square = sqrt(p*(p - A) * (p - B) * (p - C))
-        if square <= 0:
-            raise BadTriangle
+        try:
+            square = sqrt(p*(p - A) * (p - B) * (p - C))
+            if square <= 0:
+                raise BadTriangle
+        except Exception:
+            raise BadTriangle        
         return square
 
 while True:
