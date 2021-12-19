@@ -5,5 +5,5 @@ def SUB(a, b):
     else:
         return a - b
         
-import sys
-exec(sys.stdin.read())      
+a, b = eval(input())
+print(SUB(a, b))

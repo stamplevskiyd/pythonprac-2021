@@ -10,5 +10,5 @@ def Bisect(elem, sequence) -> bool:
         return Bisect(elem, sequence[:middle_index])
         
 # для тестов
-import sys
-exec(sys.stdin.read())    
+elem, seq = eval(input())
+print(Bisect(elem, seq))
