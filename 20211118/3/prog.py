@@ -12,7 +12,7 @@ class Alpha:
 
     def __str__(self):
         data = ''
-        for letter in string.ascii_lowercase:
+        for letter in ascii_lowercase:
             if hasattr(self, letter):
                 data += letter + ': ' + str(getattr(self, letter, None)) + ', '
         return data[:-2]
@@ -20,7 +20,7 @@ class Alpha:
 class AlphaQ(Empty):
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
-            if key in string.ascii_lowercase:
+            if key in ascii_lowercase:
                 setattr(self, key, value)
             else:
                 raise AttributeError
