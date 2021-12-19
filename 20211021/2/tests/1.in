@@ -3,4 +3,4 @@ cos -3
 :decorate s "--<<{}>>--".format(s)
 decorate "ЖЖЖ"
 cos 2
-quit "fun:{}:{}"
+quit все
