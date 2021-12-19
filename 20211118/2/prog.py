@@ -1,7 +1,7 @@
 class Num:
     def __set__(self, obj, value):
         if hasattr(value, "real"):
-            obj._value = value.real
+            obj._value = value
         else:
             obj._value = len(value)
 
