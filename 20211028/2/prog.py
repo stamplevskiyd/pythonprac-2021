@@ -1,10 +1,11 @@
 import itertools
 
-def slide(seq, n):
-    index = 0
-    while index < len(seq):
-        yield from itertools.islice(seq, index, n + index)
-        index += 1
+def slide(seq, index):
+    seq = itertools.tee(seq, 2)
+    yield from itertools.islice(seq[0], index)
+    while next(seq[1], None) != None:
+        seq = itertools.tee(seq[1], 2)
+        yield from itertools.islice(seq[0], index)
 
 import sys
 exec(sys.stdin.read())
