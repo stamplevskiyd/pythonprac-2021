@@ -37,6 +37,13 @@ class AlphaQ(Empty):
             super().__setattr__(key, value)
         else:
             raise AttributeError
+          
+    def __getattr__(self, name):
+        try:
+            return self.__dict__[name]
+        except KeyError:
+            raise AttributeError
+        
 
 
 import sys
