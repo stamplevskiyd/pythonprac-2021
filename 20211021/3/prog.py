@@ -17,8 +17,4 @@ if c:
     max_count = c.most_common()[0][1]
     L = sorted([word for word in c if c[word] == max_count])
     for item in L:
-        print(item, end=' ')
-    if not L:
-        print()
-else:
-    print()  # добавлено для синхронизации тестов        
+        print(item, end=' ')     
