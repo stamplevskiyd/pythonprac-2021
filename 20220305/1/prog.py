@@ -11,9 +11,6 @@ class Cell:
         self.health = monster_h
 
 
-# add monster name <имя монстра> hp <число очков здоровья> coords <X> <Y>
-#  -1     0     1       2        3       4                  5      6   7
-
 class Game(cmd.Cmd):
     field_width = 10
     field_height = 10
@@ -49,8 +46,8 @@ class Game(cmd.Cmd):
             return
         for i in range(Game.field_height):
             for j in range(Game.field_width):
-                if self.field[i][j].monster:
-                    print(f"{self.field[i][j].monster} at ({self.field[i][j].x} {self.field[i][j].y}) hp {self.field[i][j].health}")
+                for monster in self.field[i][j]:
+                    print(f"{monster.monster_name} at ({monster.x} {monster.y}) hp {monster.health}")
 
     def do_move(self, arg):
         args = shlex.split(arg)
