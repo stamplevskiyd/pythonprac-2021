@@ -83,6 +83,28 @@ class Game(cmd.Cmd):
             for monster in self.field[self.player_x][self.player_y]:
                 print(f"{monster.monster_name} {monster.health} hp")
 
+    def do_attack(self, arg):
+        args = shlex.split(arg)
+        if len(args) != 1:
+            print("Correct format is 'attack <monster name>'")
+            return
+        monster = args[0]
+        monster_id = -1
+        for i in range(len(self.field[self.player_x][self.player_y])):  # там не список строк, простой index не поможет
+            if self.field[self.player_x][self.player_y][i].monster_name == monster:
+                monster_id = i
+                break
+        if monster_id < 0:
+            print(f"no {monster} here")
+            return
+        self.field[self.player_x][self.player_y][monster_id].health -= 10
+        if self.field[self.player_x][self.player_y][monster_id].health > 0:
+            print(f"{monster} lost 10 hp, now has {self.field[self.player_x][self.player_y][monster_id].health} hp")
+        else:
+            print(f"{monster} dies")
+            self.field[self.player_x][self.player_y].pop(monster_id)  # оно есть в списке в любом случае
+
+
     def do_exit(self, args):
         print('Bye!')
         return True
