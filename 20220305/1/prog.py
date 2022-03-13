@@ -52,7 +52,7 @@ class Game(cmd.Cmd):
     def do_move(self, arg):
         args = shlex.split(arg)
         if len(args) != 1:
-            print("Correct format is 'move <direction>")
+            print("Correct format is 'move <direction>'")
             return
         direction = args[0]
         if direction == 'up':
@@ -104,6 +104,40 @@ class Game(cmd.Cmd):
             print(f"{monster} dies")
             self.field[self.player_x][self.player_y].pop(monster_id)  # оно есть в списке в любом случае
 
+    def complete_add(self, prefix, allcomand, beg, end):
+        args = shlex.split(allcomand)
+        if len(args) == 1:  # только add, префикса быть не может
+            return ['monster']
+        if len(args) == 2:
+            if prefix:
+                return ['monster'] if 'monster'.startswith(prefix) else ''
+            else:
+                return ['name']
+        elif len(args) == 3:
+            if prefix:
+                return ['name'] if 'name'.startswith(prefix) else ''
+        elif len(args) == 4:
+            if not prefix:
+                return ['hp']
+        elif len(args) == 5:
+            if prefix:
+                return ['hp'] if 'hp'.startswith(prefix) else ''
+        elif len(args) == 6:
+            if not prefix:
+                return ['coords']
+        elif len(args) == 7:
+            if prefix:
+                return ['coords'] if 'coords'.startswith(prefix) else ''
+
+    def complete_show(self, prefix, allcomand, beg, end):
+        return ['monsters'] if 'monsters'.startswith(prefix) else ''
+
+    def complete_move(self, prefix, allcomand, beg, end):
+        return [s for s in ['up', 'down', 'left', 'right'] if s.startswith(prefix)]
+
+    def complete_attack(self, prefix, allcomand, beg, end):
+        monsters = [monster.monster_name for monster in self.field[self.player_x][self.player_y]]
+        return [monster if len(monster.split()) == 1 else repr(monster) for monster in monsters if monster.startswith(prefix)]
 
     def do_exit(self, args):
         print('Bye!')
