@@ -1,2 +1,2 @@
-# pythonprac-2021
-Python practicum 2021 autumn
+# Pythonprac
+Практикум по python 3 курса
