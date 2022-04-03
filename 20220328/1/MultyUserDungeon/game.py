@@ -1,27 +1,25 @@
+"""Module for game commandline."""
+
 import cmd
 import shlex
-from MultyUserDungeon import config
-
-
-class Cell:
-    def __init__(self, X, Y, monster_n, monster_h):
-        self.x = X
-        self.y = Y
-        self.monster_name = monster_n
-        self.health = monster_h
+from MultyUserDungeon import field
 
 
 class Game_Cmd(cmd.Cmd):
-    prompt = config.prompt
+    """Commandline module."""
+
+    prompt = field.prompt
 
     def __init__(self):
+        """Init game using field information."""
         cmd.Cmd.__init__(self)
-        self.field = [[[] for x in range(config.field_width)]
-                      for y in range(config.field_height)]
+        self.field = [[[] for x in range(field.field_width)]
+                      for y in range(field.field_height)]
         self.player_x = 0
         self.player_y = 0
 
     def do_add(self, arg):
+        """Add monster to given cell."""
         args = shlex.split(arg)
         if len(args) != 8 or args[:2] != ['monster', 'name']:
             print("Correct format is: 'add monster name <monster_name> hp <hp_count> coords <X> <Y>'")
@@ -35,19 +33,21 @@ class Game_Cmd(cmd.Cmd):
             print("Correct format is: 'add monster name <monster_name> hp <hp_count> coords <X> <Y>'")
             return
         x, y = int(args[6]), int(args[7])
-        self.field[x][y].append(Cell(x, y, monster_name, hp))
+        self.field[x][y].append(field.Cell(x, y, monster_name, hp))
 
     def do_show(self, arg):
+        """Show monsters at player's position."""
         args = shlex.split(arg)
         if len(args) != 1 or args[0] != 'monsters':
             print("Correct format is 'show monsters'")
             return
-        for i in range(config.field_height):
-            for j in range(config.field_width):
+        for i in range(field.field_height):
+            for j in range(field.field_width):
                 for monster in self.field[i][j]:
                     print(f"{monster.monster_name} at ({monster.x} {monster.y}) hp {monster.health}")
 
     def do_move(self, arg):
+        """Move player by one cell."""
         args = shlex.split(arg)
         if len(args) != 1:
             print("Correct format is 'move <direction>'")
@@ -59,7 +59,7 @@ class Game_Cmd(cmd.Cmd):
                 return
             self.player_y -= 1
         elif direction == 'down':
-            if self.player_y + 1 >= config.field_height:
+            if self.player_y + 1 >= field.field_height:
                 print("cannot move")
                 return
             self.player_y += 1
@@ -69,7 +69,7 @@ class Game_Cmd(cmd.Cmd):
                 return
             self.player_x -= 1
         elif direction == 'right':
-            if self.player_y + 1 >= config.field_width:
+            if self.player_y + 1 >= field.field_width:
                 print("cannot move")
                 return
             self.player_x += 1
@@ -82,6 +82,7 @@ class Game_Cmd(cmd.Cmd):
                 print(f"{monster.monster_name} {monster.health} hp")
 
     def do_attack(self, arg):
+        """Attack monster in player's cell."""
         args = shlex.split(arg)
         if len(args) != 1:
             print("Correct format is 'attack <monster name>'")
@@ -103,6 +104,7 @@ class Game_Cmd(cmd.Cmd):
             self.field[self.player_x][self.player_y].pop(monster_id)  # оно есть в списке в любом случае
 
     def complete_add(self, prefix, allcomand, beg, end):
+        """Add method autocomplete."""
         args = shlex.split(allcomand)
         if len(args) == 1:  # только add, префикса быть не может
             return ['monster']
@@ -128,15 +130,20 @@ class Game_Cmd(cmd.Cmd):
                 return ['coords'] if 'coords'.startswith(prefix) else ''
 
     def complete_show(self, prefix, allcomand, beg, end):
+        """Show method autocomplete."""
         return ['monsters'] if 'monsters'.startswith(prefix) else ''
 
     def complete_move(self, prefix, allcomand, beg, end):
+        """Move method autocomplete."""
         return [s for s in ['up', 'down', 'left', 'right'] if s.startswith(prefix)]
 
     def complete_attack(self, prefix, allcomand, beg, end):
+        """Attack method autocomplete."""
         monsters = [monster.monster_name for monster in self.field[self.player_x][self.player_y]]
-        return [monster if len(monster.split()) == 1 else repr(monster) for monster in monsters if monster.startswith(prefix)]
+        return [monster if len(monster.split()) == 1 else repr(monster)
+                for monster in monsters if monster.startswith(prefix)]
 
     def do_exit(self, args):
+        """Exit processing."""
         print('Bye!')
         return True
