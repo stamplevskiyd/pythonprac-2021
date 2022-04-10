@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Документация MultiUserDungeon &#8212; MultyUserDungeon 0.002 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/nature.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">MultyUserDungeon 0.002 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Документация MultiUserDungeon</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="multiuserdungeon">
+<h1>Документация MultiUserDungeon<a class="headerlink" href="#multiuserdungeon" title="Permalink to this headline">¶</a></h1>
+<section id="id1">
+<h2>Задачи программы:<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Имеется поле 10х10 клеток (по каждой оси нумерация с 0 по 9); рисовать поле и его наполнение - не нужно</p></li>
+<li><dl class="simple">
+<dt>В каждой клетке может находиться 0 или более монстров</dt><dd><ul>
+<li><p>У каждого монстра есть имя и число очков здоровья (hp - hit points)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>По полю ходит игрок;</dt><dd><ul>
+<li><p>Попав на клетку с монстром, он может его атаковать, нанося урон (списывая очки здоровья)</p></li>
+<li><dl class="simple">
+<dt>В начале игры игрок появляется в случайной клетке (0, 0)</dt><dd><ul>
+<li><p>Клетка с координатами (0, 0) находится в левом верхнем углу поля</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Настройка поля и игровой процесс организованы при помощи командной строки (readline/shlex/cmd); должен поддерживаться следующий командный язык:</dt><dd><ul>
+<li><dl class="simple">
+<dt>add monster name &lt;имя монстра&gt; hp &lt;число очков здоровья&gt; coords &lt;X&gt; &lt;Y&gt; - добавить в клетку с заданными координатами монстра с заданным именем и числом очков здоровья</dt><dd><ul>
+<li><p>Если в этой клетке уже есть монстр с таким именем, его число очков здоровья меняется на новое</p></li>
+<li><p>Пример: add monster name Gnoll hp 23 coords 5 7</p></li>
+<li><p>Пример (чтобы работал shlex): add monster name “War Troll” hp 100 coords 4 2</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>show monsters</dt><dd><ul>
+<li><p>Вывести про каждого монстра на отдельной строке информацию: его имя, координаты, число очков здоровья</p></li>
+<li><p>Пример: War Troll at (4 2) hp 100</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>move &lt;направление&gt;</dt><dd><ul>
+<li><p>Подвинуть игрока на одну клетку в заданном направлении (варианты: up, down, left, right), если это возможно с учетом границ поля; up, down - смещение по оси Y; left, right - по оси X</p></li>
+<li><p>Пример: move up</p></li>
+<li><p>После подвижки (т.е. успешного изменения позиции) вывести информацию о новой позиции, например: player at 6 9; если подвижка невозможна, вывести: cannot move</p></li>
+<li><p>Если после подвижки игрок попал на клетку с монстром, вывести информацию о монстре (монстрах) в этой клетке, например: encountered: War Troll 57 hp, Lizardman 13 hp</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>attack &lt;имя монстра&gt;</dt><dd><ul>
+<li><p>Атаковать монстра с заданным именем, находящегося в той же клетке, где игрок</p></li>
+<li><p>Атака списывает у монстра 10 очков здоровья; по результатам выводится сообщение:</p></li>
+<li><p>Если у монстра осталось положительное число очков здоровья: &lt;имя монстра&gt; lost 10 hp, now has &lt;число&gt; hp</p></li>
+<li><p>Если у монстра осталось 0 или менее очков здоровья (традиция допускает “уход в минус”), то: &lt;имя монстра&gt; dies</p></li>
+<li><p>Монстр, у которого в результате атаки осталось 0 или менее очков здоровья, исчезает</p></li>
+<li><p>Если монстра с заданными именем нет в клетке с игроком, выводится сообщение: no &lt;имя монстра&gt; here</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Автодополнение должно работать:</dt><dd><ul>
+<li><p>Для основного имени команды (add, show и т.п.)</p></li>
+<li><p>Для направления в команде move</p></li>
+<li><p>Для имени монстра, находящегося в клетке с игроком - например, введя attack и нажимая TAB, пользователь может перебирать имена монстров в текущей клетке; при этом имена, содержащие пробелы, должны перебираться с экранированными пробелами</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="module-MultyUserDungeon.__main__">
+<span id="id2"></span><span id="target-to-paragraph"></span><h1>Техническая документация:<a class="headerlink" href="#module-MultyUserDungeon.__main__" title="Permalink to this headline">¶</a></h1>
+<p>Starts multi-user dungeon game.</p>
+<span class="target" id="module-MultyUserDungeon.game"></span><p>Module for game commandline.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MultyUserDungeon.game.</span></span><span class="sig-name descname"><span class="pre">Game_Cmd</span></span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Commandline module.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Init game using field information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.complete_add">
+<span class="sig-name descname"><span class="pre">complete_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allcomand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.complete_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add method autocomplete.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prefix</strong> – command’s prefix (the rest is not used)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.complete_attack">
+<span class="sig-name descname"><span class="pre">complete_attack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allcomand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.complete_attack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attack method autocomplete.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prefix</strong> – command’s prefix (the rest is not used)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.complete_move">
+<span class="sig-name descname"><span class="pre">complete_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allcomand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.complete_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move method autocomplete.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prefix</strong> – command’s prefix (the rest is not used)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.complete_show">
+<span class="sig-name descname"><span class="pre">complete_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allcomand</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.complete_show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show method autocomplete.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>prefix</strong> – command’s prefix (the rest is not used)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.do_add">
+<span class="sig-name descname"><span class="pre">do_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.do_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add monster to given cell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> – list of words from user’s input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.do_attack">
+<span class="sig-name descname"><span class="pre">do_attack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.do_attack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attack monster in player’s cell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> – list of words from user’s input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.do_exit">
+<span class="sig-name descname"><span class="pre">do_exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.do_exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit processing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.do_move">
+<span class="sig-name descname"><span class="pre">do_move</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.do_move" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move player by one cell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> – list of words from user’s input</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.game.Game_Cmd.do_show">
+<span class="sig-name descname"><span class="pre">do_show</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">arg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.game.Game_Cmd.do_show" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show monsters at player’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>arg</strong> – list of words from user’s input</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-MultyUserDungeon.field"></span><p>Base configuration for multi-user dungeon.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="MultyUserDungeon.field.Cell">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">MultyUserDungeon.field.</span></span><span class="sig-name descname"><span class="pre">Cell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monster_n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monster_h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.field.Cell" title="Permalink to this definition">¶</a></dt>
+<dd><p>One cell on the map.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="MultyUserDungeon.field.Cell.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monster_n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monster_h</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#MultyUserDungeon.field.Cell.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create cell with given coords and monster.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> – X cell coordinate</p></li>
+<li><p><strong>Y</strong> – Y cell coordinate</p></li>
+<li><p><strong>monster_n</strong> – monster’s name</p></li>
+<li><p><strong>monster_h</strong> – monster’s initial health</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="MultyUserDungeon.field.Cell.__weakref__">
+<span class="sig-name descname"><span class="pre">__weakref__</span></span><a class="headerlink" href="#MultyUserDungeon.field.Cell.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="#">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Документация MultiUserDungeon</a><ul>
+<li><a class="reference internal" href="#id1">Задачи программы:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-MultyUserDungeon.__main__">Техническая документация:</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="#">MultyUserDungeon 0.002 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Документация MultiUserDungeon</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2022, stamplevskiyd.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>
