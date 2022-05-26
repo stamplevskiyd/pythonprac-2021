@@ -1,41 +1,33 @@
-DOIT_CONFIG = {'default_tasks': ['translate', 'test', 'wheel', 'source_dist', 'cleanup']}
+DOIT_CONFIG = {
+    'default_tasks': ['extract', 'update', 'compile', 'test']
+}
 
 
-def task_translate():
+def task_extract():
     return {
-        "actions": ["pybabel extract -o po/solver.pot --input-dirs=.",
-                    "pybabel update -l ru -D solver -i po/solver.pot -d po",
-                    "pybabel compile -l ru -D solver -d po"],
-        "file_dep": ["solver.py"],
-        'targets': ['po/solver.pot', 'po/ru/LC_MESSAGES/solver.mo'],
-        "clean": True,
+        "actions": ["pybabel extract -o solver/po/solver.pot solver"],
+        "targets": ["solver/po/solver.pot"]
+    }
+
+
+def task_update():
+    return {
+        "actions": ["pybabel update -D solver -i solver/po/solver.pot -d solver/po -l ru",
+                    "pybabel update -D solver -i solver/po/solver.pot -d solver/po -l en"],
+        "file_dep": ["solver/po/solver.pot"],
+        "targets": ["solver/po/ru/LC_MESSAGES/solver.po"]
+    }
+
+
+def task_compile():
+    return {
+        "actions": ["pybabel compile -D solver -d solver/po -l ru",
+                    "pybabel compile -D solver -d solver/po -l en"],
+        "targets": ["solver/po/ru/LC_MESSAGES/solver.mo"]
     }
 
 
 def task_test():
     return {
-        "actions": ["python3 -m unittest -v"],
-    }
-
-
-def task_wheel():
-    return {
-        "actions": ["python3 -m build -w"],
-        "file_dep": ["solver.py", "po/ru/LC_MESSAGES/solver.mo"],
-        "targets": ["dist/solver-0.0.1-py3-none-any.whl"]
-    }
-
-
-def task_cleanup():
-    return {
-        "actions": ["rm po/solver.pot",
-                    "rm po/ru/LC_MESSAGES/solver.mo"]
-    }
-
-
-def task_source_dist():
-    return {
-        "actions": ["python3 -m build -s"],
-        "file_dep": ["task.py", "po/ru/LC_MESSAGES/solver.mo"],
-        "targets": ["dist/prog-0.0.1.tar.gz"]
+        "actions": ["python3 -m test"]
     }
