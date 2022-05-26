@@ -1,0 +1,8 @@
+[build-system]
+requires = ["build", "doit", "setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "solver"
+version = "0.1"
+dependencies = ["pyfiglet",]

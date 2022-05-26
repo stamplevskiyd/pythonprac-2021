@@ -1,0 +1,3 @@
+include dodo.py
+include test.py
+recursive-include solver/po *.po
